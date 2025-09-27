@@ -1,18 +1,16 @@
 import { MongoClient, ObjectId } from "mongodb";
 
 const client = new MongoClient("mongodb+srv://admin:admin@hibridas.3hjgkoa.mongodb.net/?retryWrites=true&w=majority&tls=true");
-
-// ✅ Definimos la base de datos
 const db = client.db("AH20232CP1");
 
-// 👉 Traer comentarios por producto
 export async function getComentariosByProducto(productoId) {
   await client.connect();
   return db
-    .collection("comentarios")   // ✅ usamos la colección correcta
+    .collection("comentarios")   
     .find({ productoId: new ObjectId(productoId) })
     .toArray();
 }
+
 export async function getComentarioById(id) {
     if (!ObjectId.isValid(id)) {
         return null;
@@ -21,13 +19,12 @@ export async function getComentarioById(id) {
     return db.collection("comentarios").findOne({ _id: new ObjectId(id) });
 }
 
+
 // 👉 Traer todos los comentarios
 export async function getComentarios() {
   await client.connect();
   return db.collection("comentarios").find({}).toArray();
 }
-
-
 
 
 // 👉 Crear comentario

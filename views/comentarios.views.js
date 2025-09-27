@@ -35,9 +35,9 @@ export function comentariosList(comentarios, idProducto) {
 
 
 export function createAllComentariosPage(comentarios) {
-    let html = `<h2 style="text-align:center; margin:20px 0; color:#007bff;">📌 Historial de Comentarios por Usuario</h2>`;
+    let html = `<h2 style="text-align:center; margin:20px 0; color:#007bff;">📌 Historial de todos los Comentarios</h2>`;
 
-    // 🔑 LÓGICA DE AGRUPAMIENTO POR EMAIL
+    
     const porEmail = {};
     comentarios.forEach(c => {
         if (!porEmail[c.email]) porEmail[c.email] = [];
@@ -45,7 +45,7 @@ export function createAllComentariosPage(comentarios) {
     });
 
     for (let email in porEmail) {
-        // Estilo de tarjeta para cada grupo de email
+        
         html += 
         `<div style="max-width: 700px; margin: 20px auto; padding: 15px; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); background: #f9f9f9;">
                     <h3 style="color:#333; border-bottom: 2px dashed #007bff; padding-bottom: 5px; margin-bottom: 10px;">👤 ${email} (${porEmail[email].length} comentarios)</h3>
@@ -94,7 +94,7 @@ export function formularioBorrarComentario(idProducto, comentario) {
     );
 }
 
-// ✅ También falta esta función para el formulario de edición
+
 export function formularioEditarComentario(idProducto, comentario) {
     return createPage(
         `Editar Comentario`,

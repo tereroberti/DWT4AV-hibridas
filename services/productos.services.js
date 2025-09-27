@@ -61,3 +61,25 @@ export function borrarProducto(id){
   }
   return db.collection("productos").updateOne({ _id: new ObjectId(id) }, { $set: { eliminado: true } });
 }
+
+
+
+export async function getProductosByIds(ids) {
+  // 1. Convertir los strings de ID a objetos ObjectId de MongoDB
+  const objectIds = ids.map(id => {
+    if (ObjectId.isValid(id)) {
+      return new ObjectId(id);
+    }
+    // Opcional: manejar IDs inválidos si es necesario, aunque el código del controller
+    // ya convierte a string antes de pasarlos.
+    return null; 
+  }).filter(id => id !== null); // Filtrar cualquier ID inválido
+
+  if (objectIds.length === 0) {
+    return []; // Devolver un array vacío si no hay IDs válidos
+  }
+
+  await client.connect();
+  // 2. Usar el operador $in para buscar productos cuyo _id esté en la lista de objectIds
+  return db.collection("productos").find({ _id: { $in: objectIds } }).toArray();
+}

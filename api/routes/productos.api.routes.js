@@ -11,7 +11,6 @@ route.delete("/:id", controllers.deleteProduct);
 route.put("/:id", controllers.reemplazarProduct);
 route.patch("/:id", controllers.actualizarProduct);
 
-// 👉 Montar comentarios como sub-ruta de productos
 route.use("/:idProducto/comentarios", comentariosRouter);
 
 

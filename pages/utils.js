@@ -7,7 +7,7 @@ export function createPage(title, content) {
       <title>${title}</title>
       <style>
         body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f8f9fa; }
-        header { background: #007bff; padding: 15px; }
+        header { background: #00522aff; padding: 15px; }
         header nav a { color: white; text-decoration: none; margin: 0 10px; font-weight: bold; }
         header nav a:hover { text-decoration: underline; }
         main { padding: 20px; }

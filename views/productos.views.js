@@ -16,6 +16,7 @@ export function createProductosListPage(productos) {
             box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
             height: fit-content; /* Se ajusta a su contenido */
         ">
+          <h1>Catálogo</h1> 
             <h3 style="color: #343a40; margin-top: 0; border-bottom: 2px solid #007bff; padding-bottom: 10px;">
                 🔎 Filtrar Catálogo
             </h3>
@@ -61,7 +62,7 @@ export function createProductosListPage(productos) {
                 onmouseover="this.style.backgroundColor='#0056b3'"
                 onmouseout="this.style.backgroundColor='#007bff'"
             >
-                ➕ Nuevo Producto
+                + Nuevo Producto
             </a> 
 
         </aside>
@@ -95,9 +96,9 @@ export function createProductosListPage(productos) {
                     <p style="font-size: 1.2em; color: #dc3545; font-weight: bold; margin: 0 0 15px 0;">$${p.precio}</p>
                     
                     <a href="/productos/${p._id}" 
-                        style="display: block; text-align: center; text-decoration: none; color: white; background: #007bff; padding: 10px 0; border-radius: 6px; font-size: 1em; font-weight: bold; transition: background 0.3s;"
-                        onmouseover="this.style.backgroundColor='#0056b3'"
-                        onmouseout="this.style.backgroundColor='#007bff'"
+                        style="display: block; text-align: center; text-decoration: none; color: white; background: #01703aff; padding: 10px 0; border-radius: 6px; font-size: 1em; font-weight: bold; transition: background 0.3s;"
+                        onmouseover="this.style.backgroundColor='#039f54ff'"
+                        onmouseout="this.style.backgroundColor='#01703aff'"
                     >
                         Ver Detalle
                     </a>
@@ -179,7 +180,7 @@ export function createDetailPage(producto, comentarios = []) {
              <a href="/comentarios/agrupados" 
                 style="color: #007bff; text-decoration: none; font-weight: bold; border-bottom: 1px dashed #007bff;"
             >
-                Ver todas las reseñas agrupadas por usuario
+                Ver reseñas de todos los productos
             </a>
         </div>
         
@@ -242,12 +243,15 @@ export function formularioNuevoProducto() {
 
       <form action="/productos/nuevo" method="post" style="display: flex; flex-direction: column; gap: 15px;">
         
+        <label for="nombre">Nombre</label>
         <input type="text" name="nombre" placeholder="Nombre del producto" 
           style="padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px;" required />
 
+        <label for="imagen">Imagen ruta:</label>
         <input type="text" name="imagen" placeholder="URL de la imagen" 
           style="padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 15px;" required />
 
+        <label for="precio">Precio:</label>
         <input type="number" name="precio" placeholder="Precio" 
           style="padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px;" required />
 
@@ -258,7 +262,8 @@ export function formularioNuevoProducto() {
             <option value="Almacen">Almacén</option>
             <option value="Fresco">Fresco</option>
           </select>
-
+          
+        <label for="descripcion">Descripción:</label>
         <textarea name="descripcion" placeholder="Descripción" rows="4"
           style="padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 15px; resize: vertical;" required></textarea>
         
@@ -286,23 +291,27 @@ export function formularioEditarProducto(producto) {
 
       <form action="/productos/editar/${producto._id}" method="post" style="display: flex; flex-direction: column; gap: 15px;">
         
+        <label for="nombre">Nombre</label>
         <input type="text" name="nombre" placeholder="Nombre del producto" value="${producto.nombre}"
           style="padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px;" required />
 
+        <label for="imagen">Imagen ruta:</label>
         <input type="text" name="imagen" placeholder="URL de la imagen" value="${producto.imagen}"
           style="padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 15px;" required />
 
+        <label for="precio">Precio:</label>
         <input type="number" name="precio" placeholder="Precio" value="${producto.precio}"
           style="padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px;" required />
 
-                    <label for="categoria">Categoría:</label>
-          <select name="categoria" id="categoria" value="${producto.categoria} style="padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px;" required>
-            <option value="">Todas</option>
-            <option value="Bolsones">Bolsones</option>
-            <option value="Almacen">Almacén</option>
-            <option value="Fresco">Fresco</option>
-          </select>
+          <label for="categoria">Categoría:</label>
+           <select name="categoria" id="categoria" style="padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px;" required>
+            <option value="" ${producto.categoria === '' ? 'selected' : ''}>Todas</option>
+            <option value="Bolsones" ${producto.categoria === 'Bolsones' ? 'selected' : ''}>Bolsones</option>
+            <option value="Almacen" ${producto.categoria === 'Almacen' ? 'selected' : ''}>Almacén</option>
+            <option value="Fresco" ${producto.categoria === 'Fresco' ? 'selected' : ''}>Fresco</option>
+           </select>
           
+        <label for="descripcion">Descripción:</label>
         <textarea name="descripcion" placeholder="Descripción" rows="4"
           style="padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 15px; resize: vertical;" required>${producto.descripcion}</textarea>
         
@@ -345,14 +354,6 @@ export function formularioBorrarProducto(producto) {
   return createPage("Borrar producto", html);
 }
 
-// ✅ Mensaje de éxito al borrar
-// export function borrarExito(id) {
-//   let html = `
-//     <p>Producto borrado correctamente</p>
-//     <a href="/productos" style="text-decoration:none; color:white; background:#007bff; padding:8px 12px; border-radius:5px;">Volver</a>
-//   `;
-//   return createPage("Producto borrado correctamente", html);
-// }
 export function borrarExito(id) {
     let html = `
     <div style="
